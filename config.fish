@@ -9,19 +9,22 @@ else
     echo "Archtecture unknown, failed to initialize Homebrew."
 end
 
-# PATH
-fish_add_path ~/go/bin
-fish_add_path ~/bin
-
-# env
+# ENV
 set -gx HOMEBREW_NO_ENV_HINTS 0
+set -gx MAKEFLAGS -j8
+set -gx EDITOR vim
+
+# PATH
+fish_add_path ~/bin
+fish_add_path ~/go/bin
+fish_add_path ~/.cargo/bin
 
 # aliases
 alias R="R --no-save --no-restore-data --quiet"
 alias be="bundle exec"
+alias k="kubectl"
+alias rstudio="open -na Rstudio"
 
 # arrow
 set -gx ARROW_HOME "$HOME/builds/arrow-$(arch)"
-
-# chruby
-#source "/opt/homebrew/opt/chruby/share/chruby/chruby.sh"
+set -gx ARROW_R_DEV "TRUE"
