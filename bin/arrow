@@ -7,25 +7,31 @@ ARROW_REMOTE_URL="https://github.com/apache/arrow"
 ARROW_REMOTE_NAME="upstream"
 ARROW_PRIMARY_BRANCH="main"
 
+ensure_git_repo () {
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "Not in a git repository. Exiting."
+    exit
+  fi
+}
 ensure_in_arrow_checkout () {
-  if git remote -v | grep "$ARROW_REMOTE_URL"; then
-    true
-  else
+  OUTPUT="$(git remote -v)"
+
+  # echo "$OUTPUT"
+  if ! echo "$OUTPUT" | grep -q "$ARROW_REMOTE_URL"; then
     echo "Not in an arrow checkout. Check your working directory. Exiting."
     exit
   fi
 }
 
 ensure_build_dir () {
-  if file ../CMakeLists.txt; then
-    true
-  else
+  if [ ! -f "../CMakeLists.txt" ]; then
     echo "Not found. Exiting."
     exit
   fi
 }
 
 main () {
+  ensure_git_repo
   ensure_in_arrow_checkout
 
   if [ "$1" = "new" ]; then
@@ -79,9 +85,9 @@ main () {
     cmake .. $FLAGS "$@"
   else
     echo "Usage:"
-    echo "arrow new my-branch"
-    echo "arrow rebase"
-    echo "arrow cmake"
+    echo "  arrow new my-branch"
+    echo "  arrow rebase"
+    echo "  arrow cmake"
   fi
 }
 
