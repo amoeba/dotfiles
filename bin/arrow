@@ -1,0 +1,88 @@
+#!/bin/sh
+
+# arrow.sh
+# Adapted from a similar zsh script written by Neal Richardson
+
+ARROW_REMOTE_URL="https://github.com/apache/arrow"
+ARROW_REMOTE_NAME="upstream"
+ARROW_PRIMARY_BRANCH="main"
+
+ensure_in_arrow_checkout () {
+  if git remote -v | grep "$ARROW_REMOTE_URL"; then
+    true
+  else
+    echo "Not in an arrow checkout. Check your working directory. Exiting."
+    exit
+  fi
+}
+
+ensure_build_dir () {
+  if file ../CMakeLists.txt; then
+    true
+  else
+    echo "Not found. Exiting."
+    exit
+  fi
+}
+
+main () {
+  ensure_in_arrow_checkout
+
+  if [ "$1" = "new" ]; then
+    if [ -z "$2" ]; then
+      echo "No branch name provided. Exiting."
+      exit
+    fi
+
+    STASH=$(git stash)
+    git fetch $ARROW_REMOTE_NAME
+    git checkout "$ARROW_PRIMARY_BRANCH"
+    git reset --hard "$ARROW_REMOTE_NAME/$ARROW_PRIMARY_BRANCH"
+    git checkout -b "$2"
+    if [ "$STASH" != "No local changes to save" ]; then
+      git stash pop
+    fi
+  elif [ "$1" = "rebase" ]; then
+    git pull
+    git fetch "$ARROW_REMOTE_NAME"
+    git rebase "$ARROW_REMOTE_NAME/$ARROW_PRIMARY_BRANCH"
+  elif [ "$1" = "cmake" ]; then
+    ensure_build_dir
+
+    FLAGS="-GNinja \
+      -DARROW_ACERO=ON \
+      -DARROW_COMPUTE=ON \
+      -DARROW_CSV=ON \
+      -DARROW_DATASET=ON \
+      -DARROW_FILESYSTEM=ON \
+      -DARROW_FLIGHT=ON \
+      -DARROW_JSON=ON \
+      -DARROW_PARQUET=ON \
+      -DARROW_S3=ON \
+      -DARROW_GCS=ON \
+      -DARROW_MIMALLOC=OFF \
+      -DARROW_WITH_BROTLI=ON \
+      -DARROW_WITH_BZ2=ON \
+      -DARROW_WITH_LZ4=ON \
+      -DARROW_WITH_SNAPPY=ON \
+      -DARROW_WITH_ZLIB=ON \
+      -DARROW_WITH_ZSTD=ON \
+      -DARROW_INSTALL_NAME_RPATH=OFF \
+      -DARROW_EXTRA_ERROR_CONTEXT=ON \
+      -DCMAKE_INSTALL_PREFIX=$ARROW_HOME \
+      -DCMAKE_BUILD_TYPE=Debug \
+      -DGTest_SOURCE=BUNDLED \
+    	-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+
+    shift
+    set -x
+    cmake .. $FLAGS "$@"
+  else
+    echo "Usage:"
+    echo "arrow new my-branch"
+    echo "arrow rebase"
+    echo "arrow cmake"
+  fi
+}
+
+main "$@"
