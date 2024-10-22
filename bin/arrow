@@ -4,7 +4,7 @@
 # Adapted from a similar zsh script written by Neal Richardson
 
 ARROW_REMOTE_URL="https://github.com/apache/arrow"
-ARROW_REMOTE_NAME="upstream"
+ARROW_REMOTE_NAME="apache"
 ARROW_PRIMARY_BRANCH="main"
 
 ensure_git_repo () {
