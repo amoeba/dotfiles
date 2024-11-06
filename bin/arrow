@@ -83,11 +83,20 @@ main () {
     shift
     set -x
     cmake .. $FLAGS "$@"
+  elif [ "$1" = "python" ]; then
+    export PYARROW_BUILD_TYPE=Debug
+    export CMAKE_PREFIX_PATH="$ARROW_HOME"
+    python setup.py build_ext --inplace
+  elif [ "$1" = "r" ]; then
+    export ARROW_R_DEV=1
+    R CMD INSTALL . --preclean
   else
     echo "Usage:"
     echo "  arrow new my-branch"
     echo "  arrow rebase"
     echo "  arrow cmake"
+    echo "  arrow python"
+    echo "  arrow r"
   fi
 }
 
