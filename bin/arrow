@@ -88,7 +88,7 @@ main () {
     export CMAKE_PREFIX_PATH="$ARROW_HOME"
     python setup.py build_ext --inplace
   elif [ "$1" = "r" ]; then
-    export ARROW_R_DEV=1
+    export ARROW_R_DEV="1"
     R CMD INSTALL . --preclean
   else
     echo "Usage:"
