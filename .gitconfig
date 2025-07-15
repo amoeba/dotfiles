@@ -1,0 +1,16 @@
+[user]
+	name = Bryce Mecum
+	email = petridish@gmail.com
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[core]
+	excludesfile = ~/.config/git/.gitignore
+[push]
+	autoSetupRemote = true
+[alias]
+	co = checkout
+	lg = log --oneline --graph --decorate --all
+	lol = log --graph --pretty=format:'%C(yellow)%h%C(reset) -%C(red)%d%C(reset) %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' --abbrev-commit --all
