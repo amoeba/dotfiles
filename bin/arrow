@@ -49,7 +49,6 @@ main () {
       git stash pop
     fi
   elif [ "$1" = "rebase" ]; then
-    git pull
     git fetch "$ARROW_REMOTE_NAME"
     git rebase "$ARROW_REMOTE_NAME/$ARROW_PRIMARY_BRANCH"
   elif [ "$1" = "cmake" ]; then
