@@ -14,3 +14,6 @@
 	co = checkout
 	lg = log --oneline --graph --decorate --all
 	lol = log --graph --pretty=format:'%C(yellow)%h%C(reset) -%C(red)%d%C(reset) %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' --abbrev-commit --all
+	recent = branch --sort=-committerdate --format=\"%(committerdate:relative)%09%(refname:short)\"
+[init]
+	defaultBranch = main
