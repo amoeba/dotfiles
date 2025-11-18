@@ -12,6 +12,20 @@ end
 # prompt
 set -U pure_symbol_prompt "\$"
 
+# functions
+function fzf-git-recent
+    set -l result (git recent | fzf | awk '{print $NF}')
+
+    if test -n "$result"
+        commandline "git checkout $result"
+        commandline -f execute
+    else
+        echo "Result is empty, skipping checkout"
+        commandline -f repaint
+    end
+end
+bind \cb fzf-git-recent
+
 # env vars
 set -gx HOMEBREW_NO_ENV_HINTS 0
 set -gx MAKEFLAGS -j8
