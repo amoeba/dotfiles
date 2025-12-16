@@ -1,9 +1,10 @@
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 ;;; ui
-(tool-bar-mode -11)
+(tool-bar-mode -1)
 (setq inhibit-startup-screen t)
 
 ;;; packages
