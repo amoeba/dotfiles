@@ -27,7 +27,6 @@ end
 bind \cb fzf-git-recent
 
 # env vars
-set -gx HOMEBREW_NO_ENV_HINTS 0
 set -gx MAKEFLAGS -j8
 set -gx EDITOR vim
 
@@ -53,4 +52,9 @@ set -gx ARROW_R_DEV "TRUE"
 set -gx ADBC_HOME "$HOME/builds/adbc-$(arch)"
 
 # 1p
-source "$HOME/.config/op/plugins.sh"
+#source "$HOME/.config/op/plugins.sh"
+
+# atuin
+if status is-interactive
+	atuin init fish --disable-up-arrow | source
+end
