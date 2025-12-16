@@ -12,7 +12,14 @@
   :vc (:url "https://github.com/SophieBosio/south"
        :rev :newest
        :branch "main"))
-
+(use-package expand-region
+  :ensure t
+  :bind (("C-=" . er/expand-region)))
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c C-<" . mc/mark-all-like-this)))
 ;;; font
 (set-face-attribute 'default nil :font "JetBrains Mono-13")
 
@@ -25,7 +32,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(autothemer consult expand-region lsp-mode magit multiple-cursors
+		orderless seeing-is-believing south-theme vertico)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -42,7 +51,7 @@
   :config
   ;; Add common project markers
   (setq project-vc-extra-root-markers
-        '(".projectile" "pyproject.toml" "Cargo.toml" 
+        '(".projectile" "pyproject.toml" "Cargo.toml"
           "package.json" "go.mod" "Makefile"))
   (project-remember-projects-under "~/src/" t 2)
   )
