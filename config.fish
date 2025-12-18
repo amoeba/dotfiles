@@ -12,8 +12,9 @@ end
 # prompt
 set -U pure_symbol_prompt "\$"
 
-# functions
-function fzf-git-recent
+### functions
+# fzf-git-recent
+function fzf-git-recent --description "Switch to branch with fzf"
     set -l result (git recent | fzf | awk '{print $NF}')
 
     if test -n "$result"
@@ -25,6 +26,17 @@ function fzf-git-recent
     end
 end
 bind \cb fzf-git-recent
+
+# fzf-open-editor
+function fzf-open-editor --description "Open in $EDITOR with fzf"
+	set -l result (fzf)
+
+	if test -n "$result"
+		$EDITOR "$result"
+
+	end
+end
+bind \co fzf-open-editor
 
 # env vars
 set -gx MAKEFLAGS -j8
