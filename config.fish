@@ -56,6 +56,7 @@ alias k="kubectl"
 alias rstudio="open -na Rstudio"
 # aliases: git
 alias gc="git commit"
+alias gs="git status"
 alias gap="git add -p"
 
 # arrow
