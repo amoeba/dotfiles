@@ -71,3 +71,7 @@ set -gx ADBC_HOME "$HOME/builds/adbc-$(arch)"
 if status is-interactive
 	atuin init fish --disable-up-arrow | source
 end
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
