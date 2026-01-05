@@ -7,66 +7,27 @@
 (tool-bar-mode -1)
 (setq inhibit-startup-screen t)
 
-;;; packages
-(use-package south-theme
-  :vc (:url "https://github.com/SophieBosio/south"
-       :rev :newest
-       :branch "main"))
-(use-package expand-region
-  :ensure t
-  :bind (("C-=" . er/expand-region)))
-(use-package multiple-cursors
-  :ensure t
-  :bind (("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)
-         ("C-c C-<" . mc/mark-all-like-this)))
 ;;; font
 (set-face-attribute 'default nil :font "JetBrains Mono-13")
 
-;;; theme
-(load-theme 'south t)
-
-;;; misc
+;;; projectile
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (("C-c p" . projectile-command-map))
+  :config
+  (setq projectile-project-search-path '("~/src/")))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(autothemer consult expand-region lsp-mode magit multiple-cursors
-		orderless seeing-is-believing south-theme vertico)))
+   '(projectile vertico pulsar orderless multiple-cursors expand-region consult)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-;;; wip project setup
-;; Use built-in project.el with custom markers
-(use-package project
-  :bind (("C-c p f" . project-find-file)
-         ("C-c p b" . project-switch-to-buffer)
-         ("C-c p p" . project-switch-project))
-  :config
-  ;; Add common project markers
-  (setq project-vc-extra-root-markers
-        '(".projectile" "pyproject.toml" "Cargo.toml"
-          "package.json" "go.mod" "Makefile"))
-  (project-remember-projects-under "~/src/" t 2)
-  )
-
-;; Modern completion UI
-(use-package vertico
-  :ensure t
-  :config (vertico-mode))
-
-(use-package orderless
-  :ensure t
-  :custom (completion-styles '(orderless)))
-
-;; Enhanced project integration
-(use-package consult
-  :ensure t
-  :bind (("C-c f" . consult-find)      ; File finding with preview
-         ("C-c g" . consult-ripgrep))) ; Content search
