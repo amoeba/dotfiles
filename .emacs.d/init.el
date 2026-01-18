@@ -17,7 +17,8 @@
   (projectile-mode +1)
   :bind (("C-c p" . projectile-command-map))
   :config
-  (setq projectile-project-search-path '("~/src/")))
+  (setq projectile-project-search-path '("~/src/"))
+  (setq projectile-project-search-depth 3))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
