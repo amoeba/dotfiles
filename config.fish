@@ -1,12 +1,15 @@
-# brew
-set current_arch (uname -m)
+set os (uname -s)
+set arch (uname -m)
 
-if test $current_arch = "arm64"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-else if test $current_arch = "x86_64"
-    eval "$(/usr/local/bin/brew shellenv)"
-else
-    echo "Archtecture unknown, failed to initialize Homebrew."
+# brew
+if test "$os" = "Darwin"
+	if test $current_arch = "arm64"
+	    eval "$(/opt/homebrew/bin/brew shellenv)"
+	else if test $current_arch = "x86_64"
+	    eval "$(/usr/local/bin/brew shellenv)"
+	else
+	    echo "Archtecture unknown, failed to initialize Homebrew."
+	end
 end
 
 # prompt
