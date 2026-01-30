@@ -35,8 +35,10 @@ function fzf-open-editor --description "Open in $EDITOR with fzf"
 	set -l result (fzf)
 
 	if test -n "$result"
-		$EDITOR "$result"
-
+		commandline "$EDITOR \"$result\""
+		commandline -f execute
+	else
+		commandline -f repaint
 	end
 end
 bind \co fzf-open-editor
