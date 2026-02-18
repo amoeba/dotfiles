@@ -5,3 +5,4 @@ venv
 .claude
 .env
 .envrc
+__pycache__
