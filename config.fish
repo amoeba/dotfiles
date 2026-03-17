@@ -64,6 +64,7 @@ alias rstudio="open -na Rstudio"
 alias gc="git commit"
 alias gs="git status"
 alias gap="git add -p"
+alias pr="gh pr checkout"
 
 # arrow
 set -gx ARROW_HOME "$HOME/builds/arrow-$(arch)"
