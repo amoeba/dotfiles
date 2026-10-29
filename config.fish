@@ -44,6 +44,21 @@ function fzf-git-recent --description "Switch to branch with fzf"
 end
 bind \cb fzf-git-recent
 
+function wt --description "Switch Git worktrees with fzf"
+    set -l trees (git worktree list --porcelain | awk '
+        /^worktree / { path = substr($0, 10) }
+        /^branch /   { print path "\t[" substr($0, 19) "]" }
+        /^detached$/ { print path "\t[detached]" }
+    ')
+    test (count $trees) -gt 0; or return 1
+    if test (count $trees) -eq 1; and test (git rev-parse --is-bare-repository) = false
+        echo 'wt: no other worktrees.' >&2
+        return 0
+    end
+    set -l selected (printf '%s\n' $trees | fzf)
+    and pushd (string split -m1 \t -- "$selected")[1]
+end
+
 # fzf-open-editor
 function fzf-open-editor --description "Open in $EDITOR with fzf"
 	set -l result (fzf)
