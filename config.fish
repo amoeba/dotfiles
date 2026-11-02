@@ -2,15 +2,13 @@ set os (uname -s)
 set arch (uname -m)
 
 # Keep systemd-based systems awake when logged in via SSH
-if set -q SSH_CLIENT
+if status is-interactive; and set -q SSH_CLIENT
     if command -v systemd-inhibit >/dev/null
         if not pgrep -f "systemd-inhibit.*idle" >/dev/null
             echo "Inhibiting sleep via systemd..."
             systemd-inhibit --what=idle:sleep --who="SSH User" --why="Active SSH session" --mode=block fish -l
             exit
         end
-    else
-        echo "systemd-inhibit not available — cannot prevent sleep."
     end
 end
 
